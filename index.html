@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For You ❤️</title>
+    <title>Valentine With Sura</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -44,11 +44,11 @@
     <template x-if="step === 'password'">
         <div class="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-rose-50/90">
             <div class="bg-white/70 backdrop-blur-md p-10 w-full max-w-sm text-center rounded-[30px] shadow-2xl">
-                <h1 class="text-3xl font-bold text-rose-600 mb-6 font-romance text-5xl">Secret Code</h1>
+                <h1 class="text-3xl font-bold text-rose-600 mb-6 font-romance text-5xl">Hint: Oktober</h1>
                 <input type="password" x-model="inputPass" 
                        class="w-full p-4 text-center text-2xl tracking-[0.5em] rounded-2xl bg-white border-2 border-rose-100 focus:border-rose-400 focus:outline-none mb-6">
                 <button @click="checkPassword()" class="w-full bg-rose-500 text-white py-4 rounded-2xl font-bold shadow-lg active:scale-95 transition">Unlock ❤️</button>
-                <p x-show="error" class="mt-4 text-red-500 font-medium animate-bounce">Kode salah! ❌</p>
+                <p x-show="error" class="mt-4 text-red-500 font-medium animate-bounce">Bisa-bisanya salah?</p>
             </div>
         </div>
     </template>
@@ -73,25 +73,25 @@
         <div class="relative w-[90vw] max-w-[360px] h-[500px]">
             <div class="layer-card" id="card4" style="display: none; opacity: 0;">
                 <h2 class="text-4xl font-romance text-rose-600 mb-4">Happy Valentine!</h2>
-                <p class="text-sm text-gray-500 leading-relaxed italic">"Terima kasih sudah menjadi bagian terindah dalam hidupku. Aku sayang kamu!"</p>
+                <p class="text-sm text-gray-500 leading-relaxed italic">"Terima kasih sudah menjadi bagian terindah dalam hidup saya yang sepi. Saya sayang kamu selalu, Sura. Tolong terus bersama saya."</p>
                 <div class="mt-8 text-5xl animate-pulse">👩‍❤️‍👨</div>
-                <button class="btn-action" @click="resetToStart()">Mulai Dari Awal?</button>
+                <button class="btn-action" @click="resetToStart()">Pencet ini kalau kamu mau baca lagi, sayang</button>
             </div>
 
             <div class="layer-card" id="card3" style="display: none; opacity: 0;">
                 <h2 class="text-3xl font-romance text-rose-500 mb-4 text-4xl">Why I Love You</h2>
                 <ul class="text-sm text-gray-500 space-y-4 text-left">
-                    <li>✨ Kamu selalu mengerti aku</li>
-                    <li>✨ Kamu pendengar terbaikku</li>
-                    <li>✨ Sabarmu luar biasa</li>
+                    <li>✨ Kamu selalu berhasil buat saya tersenyum</li>
+                    <li>✨ Kamu gak pernah menyerah atas hubungan kita</li>
+                    <li>✨ Meski kamu suka ngomel, tapi itu semua lucu</li>
                 </ul>
                 <button class="btn-action" @click="goToLayer(4)">Last Surprise &rarr;</button>
             </div>
 
             <div class="layer-card" id="card2" style="display: none; opacity: 0;">
                 <h2 class="text-3xl font-romance text-rose-500 mb-6 text-4xl">Our Memories</h2>
-                <div class="w-full h-40 bg-rose-50 rounded-3xl border-2 border-dashed border-rose-200 flex items-center justify-center text-rose-300 italic text-xs p-4">
-                    [ Pasang Foto Favorit Kita Disini ]
+                <div class="w-full h-40 overflow-hidden rounded-3xl shadow-inner border-2 border-rose-100">
+                    <img src="CP.jpg" class="w-full h-full object-cover" alt="Memory Kita">
                 </div>
                 <p class="mt-4 text-xs text-gray-400 italic font-medium">Moments worth remembering.</p>
                 <button class="btn-action" @click="goToLayer(3)">Continue &rarr;</button>
