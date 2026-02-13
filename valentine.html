@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine With Sura</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* Tambahkan ini di dalam tag <style> */
+@keyframes soft-shake {
+    0% { transform: translateX(0) rotate(0deg); }
+    25% { transform: translateX(-5px) rotate(-2deg); }
+    50% { transform: translateX(5px) rotate(2deg); }
+    75% { transform: translateX(-3px) rotate(-1deg); }
+    100% { transform: translateX(0) rotate(0deg); }
+}
+
+.animate-shake {
+    animation: soft-shake 3s ease-in-out infinite;
+}
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background: radial-gradient(circle, #fff1f2 0%, #ffe4e6 100%);
+            height: 100dvh; margin: 0; overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .font-romance { font-family: 'Dancing Script', cursive; }
+        .game-area, .game-area * { cursor: crosshair !important; }
+
+        .layer-card {
+            position: absolute; inset: 0; background: white; border-radius: 35px;
+            padding: 2.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            box-shadow: 0 25px 50px -12px rgba(251, 113, 133, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.7); text-align: center;
+            transform: rotate(0deg);
+        }
+
+        .btn-action {
+            background: #fb7185; color: white; padding: 14px 32px; border-radius: 50px;
+            font-weight: 600; margin-top: 25px; box-shadow: 0 10px 25px rgba(251, 113, 133, 0.4);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+    </style>
+</head>
+<body x-data="valentineApp()">
+
+    <audio id="bgMusic" loop>
+        <source src="Sal Priadi.m4a" type="audio/mp4">
+    </audio>
+
+    <template x-if="step === 'password'">
+        <div class="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-rose-50/90">
+            <div class="bg-white/70 backdrop-blur-md p-10 w-full max-w-sm text-center rounded-[30px] shadow-2xl">
+                <h1 class="text-3xl font-bold text-rose-600 mb-6 font-romance text-5xl">Hint: Oktober</h1>
+                <input type="password" x-model="inputPass" 
+                       class="w-full p-4 text-center text-2xl tracking-[0.5em] rounded-2xl bg-white border-2 border-rose-100 focus:border-rose-400 focus:outline-none mb-6">
+                <button @click="checkPassword()" class="w-full bg-rose-500 text-white py-4 rounded-2xl font-bold shadow-lg active:scale-95 transition">Unlock this sayangku</button>
+                <p x-show="error" class="mt-4 text-red-500 font-medium animate-bounce">Bisa-bisanya salah?</p>
+            </div>
+        </div>
+    </template>
+
+    <template x-if="step === 'game'">
+        <div class="fixed inset-0 z-50 flex flex-col items-center justify-center p-4">
+            <div class="bg-white/60 backdrop-blur-md p-5 text-center mb-8 rounded-3xl shadow-xl">
+                <h2 class="text-xs font-bold text-rose-400 tracking-widest uppercase">Target: 10 Hearts</h2>
+                <div class="text-5xl font-black text-rose-500 mt-1" x-text="score + '/10'"></div>
+            </div>
+            
+            <div class="relative w-full max-w-[360px] aspect-square bg-white/40 backdrop-blur-sm rounded-[40px] border-4 border-white shadow-2xl overflow-hidden game-area" @click="missClick()">
+                 <div id="targetHeart" class="absolute text-6xl select-none p-4 flex items-center justify-center"
+                 style="left: 50%; top: 50%; transform: translate(-50%, -50%); width: 100px; height: 100px;" @click.stop="catchHeart()">
+                    <span style="pointer-events: none;">❤️</span>
+                 </div>
+            </div>
+        </div>
+    </template>
+
+    <template x-if="step === 'book'">
+        <div class="relative w-[90vw] max-w-[360px] h-[500px]">
+            <div class="layer-card" id="card4" style="display: none; opacity: 0;">
+                <h2 class="text-4xl font-romance text-rose-600 mb-4">Happy Valentine!</h2>
+                <p class="text-sm text-gray-500 leading-relaxed italic">"Terima kasih sudah menjadi bagian terindah dalam hidup Mas yang sepi. Mas sayang kamu selalu, Sura. Terus sama Mas ya, this is not a request by the way."</p>
+                <div class="mt-8 text-5xl"> 
+                    <img src="RySur.png" class="animate-shake w-32 h-auto mx-auto" alt="RySur">
+                </div>
+                <button class="btn-action" @click="resetToStart()">Pencet ini kalau kamu mau baca lagi, sayang</button>
+            </div>
+
+            <div class="layer-card" id="card3" style="display: none; opacity: 0;">
+                <h2 class="text-3xl font-romance text-rose-500 mb-4 text-4xl">Why I Love You</h2>
+                <ul class="text-sm text-gray-500 space-y-4 text-left">
+                    <li>✨ Kamu selalu berhasil buat saya tersenyum</li>
+                    <li>✨ Kamu gak pernah menyerah atas hubungan kita</li>
+                    <li>✨ Meski kamu suka ngomel, tapi itu semua lucu</li>
+                </ul>
+                <button class="btn-action" @click="goToLayer(4)">Last Surprise &rarr;</button>
+            </div>
+
+            <div class="layer-card" id="card2" style="display: none; opacity: 0;">
+                <h2 class="text-3xl font-romance text-rose-500 mb-6 text-4xl">Our Memories</h2>
+                <div class="w-full h-40 overflow-hidden rounded-3xl shadow-inner border-2 border-rose-100">
+                    <img src="CalDu.jpg" class="w-full h-full object-cover" alt="Memory Kita">
+                </div>
+                <p class="mt-4 text-xs text-gray-400 italic font-medium">I'd choose you in every lifetime. My heart is yours forever, sayangku.</p>
+                <button class="btn-action" @click="goToLayer(3)">Continue &rarr;</button>
+            </div>
+
+            <div class="layer-card" id="card1">
+                <div class="text-7xl mb-6">💌</div>
+                <h1 class="text-5xl font-romance text-rose-600">For You</h1>
+                <p class="mt-4 text-xs text-rose-300 tracking-[0.4em] font-black uppercase">The Journey Begins</p>
+                <button class="btn-action" @click="goToLayer(2)">Open My Heart</button>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        function valentineApp() {
+            return {
+                step: 'password',
+                inputPass: '',
+                error: false,
+                score: 0,
+
+                checkPassword() {
+                    if (this.inputPass === '3110') {
+                        this.step = 'game';
+                        this.spawnBGHearts();
+                        
+                        // MULAI MUSIK DI SINI (Saat User Interaksi Klik Pertama)
+                        const music = document.getElementById('bgMusic');
+                        music.play().catch(e => console.log("User must interact first"));
+                    } else {
+                        this.error = true;
+                        setTimeout(() => this.error = false, 2000);
+                        this.inputPass = '';
+                    }
+                },
+
+                catchHeart() {
+                    this.score++;
+                    if (this.score >= 10) {
+                        this.step = 'book';
+                    } else {
+                        const target = document.getElementById('targetHeart');
+                        gsap.to(target, {
+                            duration: 0.4,
+                            left: (Math.random() * 70 + 15) + '%',
+                            top: (Math.random() * 70 + 15) + '%',
+                            ease: "power2.out"
+                        });
+                    }
+                },
+
+                missClick() {
+                    if (this.score > 0 && this.score < 10) {
+                        this.score = 0;
+                        alert("Payah banget Sura Lembayung!");
+                        gsap.to('#targetHeart', { left: '50%', top: '50%', duration: 0.3 });
+                    }
+                },
+
+                goToLayer(nextId) {
+                    const prevId = nextId - 1;
+                    const prevCard = document.getElementById(`card${prevId}`);
+                    const nextCard = document.getElementById(`card${nextId}`);
+
+                    gsap.to(prevCard, {
+                        duration: 0.8,
+                        scale: 1.5,
+                        opacity: 0,
+                        ease: "power4.inOut",
+                        onComplete: () => {
+                            prevCard.style.display = 'none';
+                            nextCard.style.display = 'flex';
+                            gsap.fromTo(nextCard, 
+                                { scale: 0.5, opacity: 0 }, 
+                                { scale: 1, opacity: 1, duration: 1, ease: "power4.out" }
+                            );
+                        }
+                    });
+                },
+
+                resetToStart() {
+                    const cards = document.querySelectorAll('.layer-card');
+                    cards.forEach(c => { c.style.display = 'none'; c.style.opacity = '0'; });
+                    const card1 = document.getElementById('card1');
+                    card1.style.display = 'flex';
+                    gsap.to(card1, { opacity: 1, scale: 1, duration: 0.6 });
+                },
+
+                spawnBGHearts() {
+                    setInterval(() => {
+                        if(this.step !== 'password') {
+                            const p = document.createElement('div');
+                            p.innerHTML = '❤️';
+                            p.className = 'fixed text-xl z-0 pointer-events-none opacity-20';
+                            p.style.left = Math.random() * 100 + 'vw';
+                            p.style.bottom = '-10%';
+                            document.body.appendChild(p);
+                            gsap.to(p, {
+                                y: -window.innerHeight - 200,
+                                duration: Math.random() * 4 + 4,
+                                onComplete: () => p.remove()
+                            });
+                        }
+                    }, 600);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
