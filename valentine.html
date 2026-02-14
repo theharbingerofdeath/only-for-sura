@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -11,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
-        /* Tambahkan ini di dalam tag <style> */
+        
 @keyframes soft-shake {
     0% { transform: translateX(0) rotate(0deg); }
     25% { transform: translateX(-5px) rotate(-2deg); }
@@ -132,8 +133,7 @@
                     if (this.inputPass === '3110') {
                         this.step = 'game';
                         this.spawnBGHearts();
-                        
-                        // MULAI MUSIK DI SINI (Saat User Interaksi Klik Pertama)
+                
                         const music = document.getElementById('bgMusic');
                         music.play().catch(e => console.log("User must interact first"));
                     } else {

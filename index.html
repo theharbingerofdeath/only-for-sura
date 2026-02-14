@@ -92,10 +92,8 @@
                 },
 
                 moveNoButton() {
-                    // Tombol mulai lari setelah user klik 'No' sebanyak 3 kali
                     if (this.stepNo >= 3) {
                         const btn = document.getElementById('noButton');
-                        // Hitung posisi acak di dalam layar
                         const x = Math.random() * (window.innerWidth - btn.offsetWidth - 40) - (window.innerWidth / 2 - btn.offsetWidth);
                         const y = Math.random() * (window.innerHeight - btn.offsetHeight - 40) - (window.innerHeight / 2 - btn.offsetHeight);
                         
@@ -112,8 +110,6 @@
                     this.accepted = true;
                     this.spawnConfetti();
                     
-                    // Kasih jeda 1.5 detik supaya dia sempat lihat efek hati sebentar
-                    // lalu pindah ke halaman index.html
                     setTimeout(() => {
                         window.location.href = "valentine.html"; 
                     }, 5500);
